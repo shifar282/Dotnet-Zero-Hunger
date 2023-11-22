@@ -1,0 +1,138 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="FoodModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="Employee">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="name" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="address" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="phone" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="email" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="password" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+    <NavigationProperty Name="FoodTrackes" Relationship="Self.FK__FoodStatu__Emplo__412EB0B6" FromRole="Employees" ToRole="FoodTrackes" />
+  </EntityType>
+  <EntityType Name="FoodItem">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="name" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="quantity" Type="Int32" Nullable="false" />
+    <Property Name="preserve_time" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <NavigationProperty Name="FoodTrackes" Relationship="Self.FK__FoodStatu__FoodI__4222D4EF" FromRole="FoodItems" ToRole="FoodTrackes" />
+  </EntityType>
+  <EntityType Name="FoodTracke">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="RestaurantId" Type="Int32" />
+    <Property Name="NGOId" Type="Int32" />
+    <Property Name="EmployeeId" Type="Int32" />
+    <Property Name="FoodItemsId" Type="Int32" />
+    <Property Name="quantity" Type="Int32" />
+    <Property Name="accept_time" Type="DateTime" Precision="3" />
+    <Property Name="collecting_time" Type="DateTime" Precision="3" />
+    <Property Name="status" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="Employee" Relationship="Self.FK__FoodStatu__Emplo__412EB0B6" FromRole="FoodTrackes" ToRole="Employees" />
+    <NavigationProperty Name="FoodItem" Relationship="Self.FK__FoodStatu__FoodI__4222D4EF" FromRole="FoodTrackes" ToRole="FoodItems" />
+    <NavigationProperty Name="NGO" Relationship="Self.FK__FoodStatu__NGOId__403A8C7D" FromRole="FoodTrackes" ToRole="NGOs" />
+    <NavigationProperty Name="Restaurant" Relationship="Self.FK__FoodStatu__Resta__3F466844" FromRole="FoodTrackes" ToRole="Restaurants" />
+  </EntityType>
+  <EntityType Name="NGO">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="name" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="address" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="phone" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="email" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="password" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+    <NavigationProperty Name="FoodTrackes" Relationship="Self.FK__FoodStatu__NGOId__403A8C7D" FromRole="NGOs" ToRole="FoodTrackes" />
+  </EntityType>
+  <EntityType Name="Restaurant">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="name" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="address" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="phone" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="email" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="password" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+    <NavigationProperty Name="FoodTrackes" Relationship="Self.FK__FoodStatu__Resta__3F466844" FromRole="Restaurants" ToRole="FoodTrackes" />
+  </EntityType>
+  <Association Name="FK__FoodStatu__Emplo__412EB0B6">
+    <End Role="Employees" Type="Self.Employee" Multiplicity="0..1" />
+    <End Role="FoodTrackes" Type="Self.FoodTracke" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Employees">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="FoodTrackes">
+        <PropertyRef Name="EmployeeId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__FoodStatu__FoodI__4222D4EF">
+    <End Role="FoodItems" Type="Self.FoodItem" Multiplicity="0..1" />
+    <End Role="FoodTrackes" Type="Self.FoodTracke" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="FoodItems">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="FoodTrackes">
+        <PropertyRef Name="FoodItemsId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__FoodStatu__NGOId__403A8C7D">
+    <End Role="NGOs" Type="Self.NGO" Multiplicity="0..1" />
+    <End Role="FoodTrackes" Type="Self.FoodTracke" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="NGOs">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="FoodTrackes">
+        <PropertyRef Name="NGOId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__FoodStatu__Resta__3F466844">
+    <End Role="Restaurants" Type="Self.Restaurant" Multiplicity="0..1" />
+    <End Role="FoodTrackes" Type="Self.FoodTracke" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Restaurants">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="FoodTrackes">
+        <PropertyRef Name="RestaurantId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="FoodEntities5" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Employees" EntityType="Self.Employee" />
+    <EntitySet Name="FoodItems" EntityType="Self.FoodItem" />
+    <EntitySet Name="FoodTrackes" EntityType="Self.FoodTracke" />
+    <EntitySet Name="NGOs" EntityType="Self.NGO" />
+    <EntitySet Name="Restaurants" EntityType="Self.Restaurant" />
+    <AssociationSet Name="FK__FoodStatu__Emplo__412EB0B6" Association="Self.FK__FoodStatu__Emplo__412EB0B6">
+      <End Role="Employees" EntitySet="Employees" />
+      <End Role="FoodTrackes" EntitySet="FoodTrackes" />
+    </AssociationSet>
+    <AssociationSet Name="FK__FoodStatu__FoodI__4222D4EF" Association="Self.FK__FoodStatu__FoodI__4222D4EF">
+      <End Role="FoodItems" EntitySet="FoodItems" />
+      <End Role="FoodTrackes" EntitySet="FoodTrackes" />
+    </AssociationSet>
+    <AssociationSet Name="FK__FoodStatu__NGOId__403A8C7D" Association="Self.FK__FoodStatu__NGOId__403A8C7D">
+      <End Role="NGOs" EntitySet="NGOs" />
+      <End Role="FoodTrackes" EntitySet="FoodTrackes" />
+    </AssociationSet>
+    <AssociationSet Name="FK__FoodStatu__Resta__3F466844" Association="Self.FK__FoodStatu__Resta__3F466844">
+      <End Role="Restaurants" EntitySet="Restaurants" />
+      <End Role="FoodTrackes" EntitySet="FoodTrackes" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

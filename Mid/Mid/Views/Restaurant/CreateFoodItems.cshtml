@@ -1,0 +1,65 @@
+﻿@model Mid.Models.FoodItemModel
+
+@{ ViewBag.Title = "CreateFoodItems";}
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 col-md-offset-3">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <!-- Panel title -->
+                        <h4 class="panel-title">Food Insert</h4>
+                    </div>
+                    <div class="panel-body">
+                        <!-- Display validation errors if any -->
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                        <!-- Input field for Food Name -->
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label" })
+                            @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                        </div>
+
+                        <!-- Input field for Quantity -->
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Quantity, htmlAttributes: new { @class = "control-label" })
+                            @Html.EditorFor(model => model.Quantity, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.Quantity, "", new { @class = "text-danger" })
+                        </div>
+
+                        <!-- Input field for Preservation Time with datepicker -->
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.PreserveTime, htmlAttributes: new { @class = "control-label" })
+                            @Html.EditorFor(model => model.PreserveTime, new { htmlAttributes = new { @class = "form-control datepicker" } })
+                            @Html.ValidationMessageFor(model => model.PreserveTime, "", new { @class = "text-danger" })
+                        </div>
+
+                        <!-- Submit button -->
+                        <div class="form-group">
+                            <input type="submit" value="Create" class="btn btn-primary" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+@section Scripts {
+    <!-- Include jQuery, jQuery UI, and Bootstrap scripts -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+    <!-- Initialize datepicker for elements with 'datepicker' class -->
+    <script>
+        $(function () {
+            $(".datepicker").datepicker({ dateFormat: 'yy-mm-dd' });
+        });
+    </script>
+}

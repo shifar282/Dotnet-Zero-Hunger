@@ -1,0 +1,103 @@
+﻿@model Mid.Models.SignupModel
+
+@{
+    ViewBag.Title = "Signup";
+}
+
+@using (Html.BeginForm("Signup", "Signup", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h2>Signup</h2>
+
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" }) <!-- Display validation errors summary -->
+        <!-- Input fields for user information -->
+        <div class="form-group">
+            @Html.LabelFor(model => model.Name)
+            @Html.TextBoxFor(model => model.Name, new { @class = "form-control", placeholder = "Enter your Name here" })
+            @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Email)
+            @Html.TextBoxFor(model => model.Email, new { @class = "form-control", placeholder = "Enter your Email here" })
+            @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Phone)
+            @Html.TextBoxFor(model => model.Phone, new { @class = "form-control", placeholder = "Enter your Phone Number here" })
+            @Html.ValidationMessageFor(model => model.Phone, "", new { @class = "text-danger" })
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Address)
+            @Html.TextBoxFor(model => model.Address, new { @class = "form-control", placeholder = "Enter your Address here" })
+            @Html.ValidationMessageFor(model => model.Address, "", new { @class = "text-danger" })
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Password)
+            @Html.PasswordFor(model => model.Password, new { @class = "form-control", @id = "password-field", placeholder = "Enter your Password here" })
+            @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
+        </div>
+
+        <!-- Dropdown list for user type -->
+        <div class="form-group">
+            @Html.Label("User Type")
+            <div class="input-group">
+                <span class="input-group-addon">
+                    <i class="fa fa-user"></i>
+                </span>
+                @Html.DropDownList("userType", new List<SelectListItem>
+                {
+                    new SelectListItem { Text = "Restaurant", Value = "Restaurant" },
+                    new SelectListItem { Text = "NGO", Value = "NGO" },
+                    new SelectListItem { Text = "Employee", Value = "Employee" }
+                }, "Select User Type", new { @class = "form-control" })
+            </div>
+        </div>
+
+        <!-- Script section for password visibility toggle -->
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/3.2.11/jquery.validate.unobtrusive.min.js"></script>
+
+        <script>
+            $(document).ready(function () {
+                $('#show-password-checkbox').change(function () {
+                    var code1 = $('#code1');
+                    var code2 = $('#code2');
+                    var passwordField = $('#password-field');
+
+                    if ($(this).is(':checked')) {
+                        code1.hide();
+                        code2.show();
+                        passwordField.attr('type', 'text');
+                    } else {
+                        code1.show();
+                        code2.hide();
+                        passwordField.attr('type', 'password');
+                    }
+                });
+            });
+        </script>
+
+        <!-- Submit button -->
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Signup" class="btn btn-primary" />
+            </div>
+        </div>
+
+        <!-- Login link -->
+        <div>
+            <br />
+            <a href="@Url.Action("Login", "Signup")" class="btn" style="width: 250px; height: 50px; background: rgb(9, 135, 255, 0.64); display: inline-block; text-align: center; line-height: 35px; color: #000; font-family: Poppins; font-size: 24px; font-style: normal; font-weight: 400;">
+                Login your account
+            </a>
+        </div>
+
+    </div>
+}

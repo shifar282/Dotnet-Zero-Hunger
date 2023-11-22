@@ -1,0 +1,89 @@
+﻿@model IEnumerable<Mid.EF.FoodItem>
+@using Mid.EF;
+
+@{
+    ViewBag.Title = "EmployeeHome";
+}
+
+<!-- HTML Header -->
+<h4>Employee Dashboard</h4>
+
+<!-- Displaying a table of food items -->
+<div class="table-responsive">
+    <table class="table table-bordered table-striped">
+        <thead>
+            <!-- Table header with column names -->
+            <tr align="center">
+                <th width="10%">Food Name</th>
+                <th width="10%">Quantity</th>
+                <th width="10%">Preserve Time</th>
+                <th width="10%">Restaurant Name</th>
+                <th width="8%">Status</th>
+            </tr>
+        </thead>
+
+
+        <tbody>
+            <!-- Loop through each food item in the model -->
+            @foreach (var item in Model)
+            {
+                var db = new SupplyEntities1();
+                // Retrieve associated FoodTrack for the current FoodItem
+                var foodTrackes = db.FoodTrackes.FirstOrDefault(f => f.FoodItemsId == item.id);
+
+
+
+                // Check if there is a FoodTrack associated with a restaurant
+                if (foodTrackes != null && foodTrackes.RestaurantId != null)
+                {
+                    // Retrieve restaurant information
+                    var restaurant = db.Restaurants.FirstOrDefault(r => r.id == foodTrackes.RestaurantId);
+
+                    <!-- Displaying a row for each food item with relevant information -->
+                    <tr align="center">
+                        <td width="10%">@Html.DisplayFor(modelItem => item.name)</td>
+                        <td width="10%">@Html.DisplayFor(modelItem => item.quantity)</td>
+                        <td width="10%">@Html.DisplayFor(modelItem => item.preserve_time)</td>
+                        <td width="10%">@restaurant.name</td>
+
+
+                        <td width="8%">
+                            <!-- Displaying status with associated CSS class using the helper method -->
+                            <div class="@GetStatusAlertClass(foodTrackes.status)">
+                                @Html.DisplayFor(model => foodTrackes.status)
+                            </div>
+                        </td>
+
+
+                        <td width="10%">
+                            <!-- Display "Collect" button if the status is "Accepted" -->
+                            @if (foodTrackes.status == "Accepted")
+                            {
+                                @Html.ActionLink("Collect", "UpdateOrderStatus", "Employee", new { id = foodTrackes.id, value = "Collect" }, new { @class = "btn btn-success" })
+                            }
+                        </td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+</div>
+
+
+<!-- Helper method to get the CSS class based on the status -->
+@helper GetStatusAlertClass(string status)
+{
+    switch (status)
+    {
+        case "Assigned":
+            break;
+        case "Collected":
+            break;
+        case "Accept":
+            break;
+        case "Reject":
+            break;
+        default:
+            break;
+    }
+}

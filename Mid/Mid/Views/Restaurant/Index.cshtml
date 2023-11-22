@@ -1,0 +1,72 @@
+﻿@model IEnumerable<Mid.EF.FoodItem>
+@using Mid.EF;
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Food Items</h2>
+
+<div>
+    <table>
+        <thead>
+            <tr>
+                <!-- Table headers for Food Items -->
+                <th>Food Name</th>
+                <th>Quantity</th>
+                <th>Preserve Time</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                // Creating a new instance of SupplyEntities1 for each iteration. Consider moving this outside the loop if possible.
+                var db = new SupplyEntities1();
+
+                // Retrieving the food status for the current item
+                var foodStatusId = db.FoodTrackes.FirstOrDefault(f => f.FoodItemsId == item.id);
+
+                <tr>
+                    <!-- Displaying properties of the FoodItem -->
+                    <td>@Html.DisplayFor(modelItem => item.name)</td>
+                    <td>@Html.DisplayFor(modelItem => item.quantity)</td>
+                    <td>@Html.DisplayFor(modelItem => item.preserve_time)</td>
+                    <td>
+                        <!-- Checking if food status exists -->
+                        @if (foodStatusId != null)
+                        {
+                            <div>
+                                <!-- Displaying the food status -->
+                                @Html.DisplayFor(model => foodStatusId.status)
+                            </div>
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+@helper GetStatusAlertClass(string status)
+{
+    // Helper function to determine the CSS class based on the food status
+    switch (status)
+    {
+        case "Assigned":
+            @("alert alert-dark")
+            break;
+        case "Collected":
+            @("alert alert-success")
+            break;
+        case "Accept":
+            @("alert alert-primary")
+            break;
+        case "Reject":
+            @("alert alert-danger")
+            break;
+        default:
+            @("alert alert-info")
+            break;
+    }
+}

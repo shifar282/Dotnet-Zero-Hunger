@@ -1,0 +1,122 @@
+﻿@using Mid.EF;
+
+@{
+    var UserEmail = Session["UserEmail"] as string;
+    var Password = Session["Password"] as string;
+    string userType = "";
+
+    if (UserEmail != null && Password != null)
+    {
+        using (var db = new SupplyEntities1()) // Instantiate the database context
+        {
+            var restaurant = db.Restaurants.SingleOrDefault(r => r.email == UserEmail);
+            var ngo = db.NGOs.SingleOrDefault(n => n.email == UserEmail);
+            var employee = db.Employees.SingleOrDefault(e => e.email == UserEmail);
+            if (restaurant != null)
+            {
+                userType = "Restaurant";
+            }
+            else if (ngo != null)
+            {
+                userType = "NGO";
+            }
+            else if (employee != null)
+            {
+                userType = "Employee";
+            }
+        }
+    }
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - My ASP.NET Application</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+</head>
+<body>
+    @if (userType == "Restaurant")
+    {
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark" style="background-color: black;">
+            <div class="container">
+
+                <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" title="Toggle navigation" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div class="collapse navbar-collapse d-sm-inline-flex justify-content-between">
+                    <ul class="navbar-nav flex-grow-1">
+                        <li>@Html.ActionLink("Home", "Index", "Restaurant", new { area = "" }, new { @class = "nav-link" })</li>
+                        <li>@Html.ActionLink("Add Food", "CreateFoodItems", "Restaurant", new { area = "" }, new { @class = "nav-link" })</li>
+                        <li>@Html.ActionLink("Logout", "Logout", "Signup", new { area = "" }, new { @class = "nav-link" })</li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+
+
+    }
+
+
+
+    else if (userType == "NGO")
+    {
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark" style="background-color: black;">
+            <div class="container">
+
+                <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" title="Toggle navigation" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div class="collapse navbar-collapse d-sm-inline-flex justify-content-between">
+                    <ul class="navbar-nav flex-grow-1">
+                        <li>@Html.ActionLink("Logout", "Logout", "Signup", new { area = "" }, new { @class = "nav-link" })</li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    }
+
+
+
+    else if (userType == "Employee")
+    {
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark" style="background-color: black;">
+            <div class="container">
+
+
+
+
+                <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" title="Toggle navigation" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse d-sm-inline-flex justify-content-between">
+                    <ul class="navbar-nav flex-grow-1">
+                        <li>@Html.ActionLink("Logout", "Logout", "Signup", new { area = "" }, new { @class = "nav-link hover-overlay hover-zoom hover-shadow ripple" })</li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    }
+
+
+    <div class="container body-content">
+        @RenderBody()
+        <hr />
+        <footer align="center">
+            <p>&copy; @DateTime.Now.Year - ST Mall</p>
+        </footer>
+    </div>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+
+</body>
+</html>

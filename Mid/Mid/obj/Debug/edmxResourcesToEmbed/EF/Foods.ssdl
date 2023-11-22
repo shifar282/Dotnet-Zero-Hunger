@@ -1,0 +1,130 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="FoodModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="Employees">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="name" Type="varchar" MaxLength="255" Nullable="false" />
+    <Property Name="address" Type="varchar" MaxLength="255" Nullable="false" />
+    <Property Name="phone" Type="varchar" MaxLength="20" Nullable="false" />
+    <Property Name="email" Type="varchar" MaxLength="255" Nullable="false" />
+    <Property Name="password" Type="varchar" MaxLength="255" Nullable="false" />
+  </EntityType>
+  <EntityType Name="FoodItems">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="name" Type="varchar" MaxLength="255" Nullable="false" />
+    <Property Name="quantity" Type="int" Nullable="false" />
+    <Property Name="preserve_time" Type="varchar" MaxLength="50" Nullable="false" />
+  </EntityType>
+  <EntityType Name="FoodTrackes">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="RestaurantId" Type="int" />
+    <Property Name="NGOId" Type="int" />
+    <Property Name="EmployeeId" Type="int" />
+    <Property Name="FoodItemsId" Type="int" />
+    <Property Name="quantity" Type="int" />
+    <Property Name="accept_time" Type="datetime" />
+    <Property Name="collecting_time" Type="datetime" />
+    <Property Name="status" Type="varchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="NGOs">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="name" Type="varchar" MaxLength="255" Nullable="false" />
+    <Property Name="address" Type="varchar" MaxLength="255" Nullable="false" />
+    <Property Name="phone" Type="varchar" MaxLength="20" Nullable="false" />
+    <Property Name="email" Type="varchar" MaxLength="255" Nullable="false" />
+    <Property Name="password" Type="varchar" MaxLength="255" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Restaurants">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="name" Type="varchar" MaxLength="255" Nullable="false" />
+    <Property Name="address" Type="varchar" MaxLength="255" Nullable="false" />
+    <Property Name="phone" Type="varchar" MaxLength="20" Nullable="false" />
+    <Property Name="email" Type="varchar" MaxLength="255" Nullable="false" />
+    <Property Name="password" Type="varchar" MaxLength="255" Nullable="false" />
+  </EntityType>
+  <Association Name="FK__FoodStatu__Emplo__412EB0B6">
+    <End Role="Employees" Type="Self.Employees" Multiplicity="0..1" />
+    <End Role="FoodTrackes" Type="Self.FoodTrackes" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Employees">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="FoodTrackes">
+        <PropertyRef Name="EmployeeId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__FoodStatu__FoodI__4222D4EF">
+    <End Role="FoodItems" Type="Self.FoodItems" Multiplicity="0..1" />
+    <End Role="FoodTrackes" Type="Self.FoodTrackes" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="FoodItems">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="FoodTrackes">
+        <PropertyRef Name="FoodItemsId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__FoodStatu__NGOId__403A8C7D">
+    <End Role="NGOs" Type="Self.NGOs" Multiplicity="0..1" />
+    <End Role="FoodTrackes" Type="Self.FoodTrackes" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="NGOs">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="FoodTrackes">
+        <PropertyRef Name="NGOId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__FoodStatu__Resta__3F466844">
+    <End Role="Restaurants" Type="Self.Restaurants" Multiplicity="0..1" />
+    <End Role="FoodTrackes" Type="Self.FoodTrackes" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Restaurants">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="FoodTrackes">
+        <PropertyRef Name="RestaurantId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="FoodModelStoreContainer">
+    <EntitySet Name="Employees" EntityType="Self.Employees" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="FoodItems" EntityType="Self.FoodItems" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="FoodTrackes" EntityType="Self.FoodTrackes" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="NGOs" EntityType="Self.NGOs" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Restaurants" EntityType="Self.Restaurants" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK__FoodStatu__Emplo__412EB0B6" Association="Self.FK__FoodStatu__Emplo__412EB0B6">
+      <End Role="Employees" EntitySet="Employees" />
+      <End Role="FoodTrackes" EntitySet="FoodTrackes" />
+    </AssociationSet>
+    <AssociationSet Name="FK__FoodStatu__FoodI__4222D4EF" Association="Self.FK__FoodStatu__FoodI__4222D4EF">
+      <End Role="FoodItems" EntitySet="FoodItems" />
+      <End Role="FoodTrackes" EntitySet="FoodTrackes" />
+    </AssociationSet>
+    <AssociationSet Name="FK__FoodStatu__NGOId__403A8C7D" Association="Self.FK__FoodStatu__NGOId__403A8C7D">
+      <End Role="NGOs" EntitySet="NGOs" />
+      <End Role="FoodTrackes" EntitySet="FoodTrackes" />
+    </AssociationSet>
+    <AssociationSet Name="FK__FoodStatu__Resta__3F466844" Association="Self.FK__FoodStatu__Resta__3F466844">
+      <End Role="Restaurants" EntitySet="Restaurants" />
+      <End Role="FoodTrackes" EntitySet="FoodTrackes" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>
